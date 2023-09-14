@@ -1,7 +1,9 @@
-import { init, updatePage } from './shared.js';
-import homePage from './page_home.js';
-import menu from './page_menu.js';
-import contactUs from './page_contact.js';
+import { init, updatePage } from './js/shared.js';
+import homePage from './js/page_home.js';
+import menu from './js/page_menu.js';
+import contactUs from './js/page_contact.js';
+import './css/style.css';
+
 
 const pageToObjectMap = {
     "home" : homePage,

@@ -1,6 +1,3 @@
-import './style.css';
-
-
 function createElementWithId(tagName, id) {
     let el = document.createElement(tagName);
     el.id = id;
