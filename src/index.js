@@ -15,57 +15,63 @@ import './css/style.css';
 
 
 // Script begins
-createSkeleton(); // This creates the skeleton of the page, with elements that we will now populate
 
-
-class Pages {
-    static allPages = [];
-    static currentPage = null;
-    static NavBar = getPageNavBarElement(); // This needs to be called after createSkeleton!
-
+class Page {
     constructor(slug, btnText, pageObj) {
         this.slug = slug;
         this.btnText = btnText;
         this.pageObj = pageObj;
+    }
+}
+
+// Module for managing the navigation
+(function() {
+    createSkeleton(); // This creates the skeleton of the page, i.e, page-head and page-copy
+
+    const allPages = [];
+    let currentPage = null;
+    const navBar = getPageNavBarElement();
+
+    function addPage(slug, btnText, pageObj) {
+        const page = new Page(slug, btnText, pageObj);
 
         // Add to list of all pages - we use this list 
-        Pages.allPages.push(this);
+        allPages.push(page);
 
         // Add button to visit page
-        let navBtn = Pages.createNavButton(btnText, slug);
-        Pages.NavBar.appendChild(navBtn);
+        let navBtn = createNavButton(btnText, slug);
+        navBar.appendChild(navBtn);
+
+        return page;
     }
 
-    // UI management
-    static createNavButton(btnText, module) {
+    function createNavButton(btnText, module) {
         let btnEl = document.createElement("button");
         btnEl.textContent = btnText;
         btnEl.setAttribute("module", module);
-        btnEl.addEventListener('click', () => Pages.changePage(module));
+        btnEl.addEventListener('click', () => changePage(module));
         return btnEl;
     }
 
     // State management
-    static getPageFromSlug(slug) {
-        for(let pg of Pages.allPages) {
-            if(pg.slug == slug) return pg;
-        }
-        return null;
+    function getPageFromSlug(slug) {
+        return allPages.find((pg) => pg.slug === slug);
     }
 
-    static changePage(newSlug) {
-        Pages.currentPage = Pages.getPageFromSlug(newSlug);
-        updatePage(Pages.currentPage.pageObj);
+    function changePage(newSlug) {
+        currentPage = getPageFromSlug(newSlug);
+        updatePage(currentPage.pageObj);
     }
 
-    static init() {
+    function init() {
         // Add pages
-        let home = new Pages("home", "Homepage", homePage);
-        new Pages("menu", "Menu", menu);
-        new Pages("contactUs", "Contact Us", contactUs);
+        let home = addPage("home", "Homepage", homePage);
+        addPage("menu", "Menu", menu);
+        addPage("contactUs", "Contact Us", contactUs);
         
-        Pages.changePage(home.slug);
+        // Load home as default
+        changePage(home.slug);
     }
-}
 
-Pages.init();
+    init();
+})();
