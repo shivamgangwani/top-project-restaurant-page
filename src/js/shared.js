@@ -1,49 +1,36 @@
 const NAV_ID = "page-head-nav";
-
-function createElementWithId(tagName, id) {
-    let el = document.createElement(tagName);
-    el.id = id;
-    return el;
-}
+const COPY_ID = "page-copy";
 
 function createPageHead() {
-    let tmpDiv = createElementWithId("div", "page-head");
+    let tmpDiv = createElementEx("div", "page-head", [], "");
     let tmpH1 = document.createElement("h1");
     tmpH1.textContent = "Project: Restaurant Page";
     tmpDiv.appendChild(tmpH1);
 
-    let navBtns = createElementWithId("div", NAV_ID);
+    let navBtns = createElementEx("div", NAV_ID, [], "");
     tmpDiv.appendChild(navBtns);
     return tmpDiv;
 }
 
-function createPageCopy() {
-    let tmpDiv = createElementWithId("div", "page-copy");
-    let copyHeadDiv = createElementWithId("div", "page-copy-head");
-    let copyHeadText = createElementWithId("div", "page-copy-body");
-
-    tmpDiv.appendChild(copyHeadDiv);
-    tmpDiv.appendChild(copyHeadText);
-    return tmpDiv;
-}
-
-function setPageCopy(head, text) {
-    let ContentCopyDiv = document.querySelector("div#page-copy");
-    ContentCopyDiv.querySelector("#page-copy-head").textContent = head;
-    ContentCopyDiv.querySelector("#page-copy-body").textContent = text;
-}
-
-
-
 // Export functions
-export function updatePage(updateObj) {
-    setPageCopy(updateObj.head, updateObj.body);
+export function createElementEx(tagName, id="", classList=[], text="") {
+    const el = document.createElement(tagName);
+    if(id) el.id = id;
+    if(classList.length > 0) el.classList.add(...classList);
+    if(text) el.textContent = text;
+    return el;
 }
 
 export function init() {
     const ContentDiv = document.querySelector("div#content");
     ContentDiv.appendChild(createPageHead());
-    ContentDiv.appendChild(createPageCopy());
+    ContentDiv.appendChild(createElementEx("div", COPY_ID, [], ""));
 }
 
 export const getPageNavBarElement = () => document.querySelector(`#${NAV_ID}`);
+export const getPageCopyElement = () => document.querySelector(`#${COPY_ID}`);
+
+export function updatePage(newChildren) {
+    const ContentCopyDiv = getPageCopyElement();
+    ContentCopyDiv.replaceChildren(...newChildren);
+}

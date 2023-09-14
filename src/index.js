@@ -17,10 +17,10 @@ import './css/style.css';
 // Script begins
 
 class Page {
-    constructor(slug, btnText, pageObj) {
+    constructor(slug, btnText, genFn) {
         this.slug = slug;
         this.btnText = btnText;
-        this.pageObj = pageObj;
+        this.genFn = genFn; // This is a function which returns an array of DOM Nodes, which represents the page
     }
 }
 
@@ -32,8 +32,8 @@ class Page {
     let currentPage = null;
     const navBar = getPageNavBarElement();
 
-    function addPage(slug, btnText, pageObj) {
-        const page = new Page(slug, btnText, pageObj);
+    function addPage(slug, btnText, genFn) {
+        const page = new Page(slug, btnText, genFn);
 
         // Add to list of all pages - we use this list 
         allPages.push(page);
@@ -60,7 +60,7 @@ class Page {
 
     function changePage(newSlug) {
         currentPage = getPageFromSlug(newSlug);
-        updatePage(currentPage.pageObj);
+        updatePage(currentPage.genFn());
     }
 
     function init() {
