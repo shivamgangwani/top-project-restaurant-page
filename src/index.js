@@ -1,49 +1,71 @@
-import { init, updatePage } from './js/shared.js';
+///// IMPORTS /////
+// Shared functions to manage application
+import {
+    init as createSkeleton, 
+    updatePage,
+    getPageNavBarElement
+} from './js/shared.js';
+
+// Page-specific modules
 import homePage from './js/page_home.js';
 import menu from './js/page_menu.js';
 import contactUs from './js/page_contact.js';
+
 import './css/style.css';
 
 
-const pageToObjectMap = {
-    "home" : homePage,
-    "menu" : menu,
-    "contact" : contactUs
-}
+// Script begins
+createSkeleton(); // This creates the skeleton of the page, with elements that we will now populate
 
-const navBarBtnTextToModuleMap = {
-    "Home" : "home",
-    "Menu" : "menu",
-    "Contact Us" : "contact"
-}
 
-const refreshPage = () => updatePage(pageToObjectMap[currentPage]);
-const changePage = (newModule) => {
-    currentPage = newModule;
-    refreshPage();
-}
+class Pages {
+    static allPages = [];
+    static currentPage = null;
+    static NavBar = getPageNavBarElement(); // This needs to be called after createSkeleton!
 
-function createNavButton(btnText, module) {
-    let btnEl = document.createElement("button");
-    btnEl.textContent = btnText;
-    btnEl.setAttribute("module", module);
-    btnEl.addEventListener('click', () => changePage(module));
-    return btnEl;
-}
+    constructor(slug, btnText, pageObj) {
+        this.slug = slug;
+        this.btnText = btnText;
+        this.pageObj = pageObj;
 
-function createNavBar(btnTextToModuleMap) {
-    const NavBar = document.querySelector("#page-head-nav");
-    for(const [text, module] of Object.entries(btnTextToModuleMap)) {
-        let navBtn = createNavButton(text, module);
-        NavBar.appendChild(navBtn);
+        // Add to list of all pages - we use this list 
+        Pages.allPages.push(this);
+
+        // Add button to visit page
+        let navBtn = Pages.createNavButton(btnText, slug);
+        Pages.NavBar.appendChild(navBtn);
+    }
+
+    // UI management
+    static createNavButton(btnText, module) {
+        let btnEl = document.createElement("button");
+        btnEl.textContent = btnText;
+        btnEl.setAttribute("module", module);
+        btnEl.addEventListener('click', () => Pages.changePage(module));
+        return btnEl;
+    }
+
+    // State management
+    static getPageFromSlug(slug) {
+        for(let pg of Pages.allPages) {
+            if(pg.slug == slug) return pg;
+        }
+        return null;
+    }
+
+    static changePage(newSlug) {
+        Pages.currentPage = Pages.getPageFromSlug(newSlug);
+        updatePage(Pages.currentPage.pageObj);
+    }
+
+    static init() {
+        // Add pages
+        let home = new Pages("home", "Homepage", homePage);
+        new Pages("menu", "Menu", menu);
+        new Pages("contactUs", "Contact Us", contactUs);
+        
+        Pages.changePage(home.slug);
     }
 }
 
-// Initially, let's start the homepage
-let currentPage = "home";
-
-// Script begins
-// Create the structure of the webpage
-init();
-refreshPage();
-createNavBar(navBarBtnTextToModuleMap);
+Pages.init();

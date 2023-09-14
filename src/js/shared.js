@@ -1,3 +1,5 @@
+const NAV_ID = "page-head-nav";
+
 function createElementWithId(tagName, id) {
     let el = document.createElement(tagName);
     el.id = id;
@@ -10,7 +12,7 @@ function createPageHead() {
     tmpH1.textContent = "Project: Restaurant Page";
     tmpDiv.appendChild(tmpH1);
 
-    let navBtns = createElementWithId("div", "page-head-nav");
+    let navBtns = createElementWithId("div", NAV_ID);
     tmpDiv.appendChild(navBtns);
     return tmpDiv;
 }
@@ -43,3 +45,5 @@ export function init() {
     ContentDiv.appendChild(createPageHead());
     ContentDiv.appendChild(createPageCopy());
 }
+
+export const getPageNavBarElement = () => document.querySelector(`#${NAV_ID}`);
