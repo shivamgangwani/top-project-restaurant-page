@@ -16,7 +16,7 @@ class MenuItem {
         let itemName = createElementEx("div", "", ['menu-item-name'], this.name);
         let itemPrice = createElementEx("div", "", ['menu-item-price'], `₹${this.price}`)
         let itemCalories = createElementEx("div", "", ['menu-item-calories'], `${this.calories} kcals`);
-        tmpEl.replaceChildren(itemName, itemCalories);
+        tmpEl.replaceChildren(itemName, itemPrice, itemCalories);
         return tmpEl;
     }
 }

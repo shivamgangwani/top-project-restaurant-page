@@ -96,6 +96,10 @@
     font-weight: bold;
 }
 
+.menu-item-price {
+    padding-top: 0.5rem;
+}
+
 .menu-item-calories {
     font-style: italic;
     font-size: 0.75rem;
