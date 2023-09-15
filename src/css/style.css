@@ -52,3 +52,52 @@
     background-color: rgba(255, 255, 255, 0.8);
     color: black;
 }
+
+#menu {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+.menu-section {
+    margin-top: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    border-right: 1px solid black;
+}
+
+.menu-section:last-child {
+    border-right: 0px;
+}
+
+.menu-section-name {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: bold;
+    padding-bottom: 0px;
+    width: 100%;
+    flex-grow: 0;
+}
+
+.menu-section-items {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+}
+
+.menu-item {
+    padding: 2rem 2rem;
+}
+
+.menu-item-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.menu-item-calories {
+    font-style: italic;
+    font-size: 0.75rem;
+}
