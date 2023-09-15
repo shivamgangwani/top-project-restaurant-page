@@ -9,8 +9,6 @@
     position:relative;
     height: 50vh;
     width: 100vw;
-    /* Image from https://www.squarespace.com/blog/how-to-make-a-website-for-your-restaurant-or-online-food-business */
-    background-image: url('../imgs/heading-bg.jpeg');
     background-size:cover;
     background-repeat: no-repeat;
     background-position: center;

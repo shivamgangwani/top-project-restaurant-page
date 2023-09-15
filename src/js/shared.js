@@ -1,8 +1,9 @@
+const HEAD_ID = "page-head";
 const NAV_ID = "page-head-nav";
 const COPY_ID = "page-copy";
 
 function createPageHead() {
-    let tmpDiv = createElementEx("div", "page-head", [], "");
+    let tmpDiv = createElementEx("div", HEAD_ID, [], "");
     let tmpH1 = document.createElement("h1");
     tmpH1.textContent = "Project: Restaurant Page";
     tmpDiv.appendChild(tmpH1);
@@ -11,6 +12,7 @@ function createPageHead() {
     tmpDiv.appendChild(navBtns);
     return tmpDiv;
 }
+const getPageHeadElement = () => document.querySelector(`#${HEAD_ID}`);
 
 // Export functions
 export function createElementEx(tagName, id="", classList=[], text="") {
@@ -29,6 +31,10 @@ export function init() {
 
 export const getPageNavBarElement = () => document.querySelector(`#${NAV_ID}`);
 export const getPageCopyElement = () => document.querySelector(`#${COPY_ID}`);
+export const setPageHeadImage = (imgURI) => {
+    getPageHeadElement().style.backgroundImage = `url("${imgURI}")`;
+}
+
 
 export function updatePage(newChildren) {
     const ContentCopyDiv = getPageCopyElement();
